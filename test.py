@@ -1,0 +1,76 @@
+from datetime import datetime
+
+# ----------------- Vehicle Class -----------------
+class Vehicle:
+    def __init__(self, vehicle_id, make, model, year, rental_price, availability_status=True):
+        self.vehicle_id = vehicle_id
+        self.make = make
+        self.model = model
+        self.year = year
+        self.rental_price = rental_price
+        self.availability_status = availability_status
+
+    def display_info(self):
+        print(f"{self.year} {self.make} {self.model} - ${self.rental_price}/day")
+
+    def update_availability(self, status):
+        self.availability_status = status
+
+# ----------------- Car Class -----------------
+class Car(Vehicle):
+    def __init__(self, vehicle_id, make, model, year, rental_price, seating_capacity, fuel_type):
+        super().__init__(vehicle_id, make, model, year, rental_price)
+        self.seating_capacity = seating_capacity
+        self.fuel_type = fuel_type
+
+    def display_info(self):
+        super().display_info()
+        print(f"Seating Capacity: {self.seating_capacity}, Fuel Type: {self.fuel_type}")
+
+# ----------------- Bike Class -----------------
+class Bike(Vehicle):
+    def __init__(self, vehicle_id, make, model, year, rental_price, engine_capacity, gear_type):
+        super().__init__(vehicle_id, make, model, year, rental_price)
+        self.engine_capacity = engine_capacity
+        self.gear_type = gear_type
+
+    def display_info(self):
+        super().display_info()
+        print(f"Engine Capacity: {self.engine_capacity}cc, Gear Type: {self.gear_type}")
+
+# ----------------- Customer Class -----------------
+class Customer:
+    def __init__(self, customer_id, name, contact_info, license_number):
+        self.customer_id = customer_id
+        self.name = name
+        self.contact_info = contact_info
+        self.license_number = license_number
+
+    def update_contact_info(self, new_contact_info):
+        self.contact_info = new_contact_info
+
+# ----------------- Booking Class -----------------
+class Booking:
+    def __init__(self, booking_id, customer, vehicle, start_date, end_date):
+        self.booking_id = booking_id
+        self.customer = customer
+        self.vehicle = vehicle
+        self.start_date = datetime.strptime(start_date, '%Y-%m-%d')
+        self.end_date = datetime.strptime(end_date, '%Y-%m-%d')
+        self.status = "Confirmed"
+
+    def calculate_total_cost(self):
+        days = (self.end_date - self.start_date).days
+        return days * self.vehicle.rental_price
+
+# ----------------- Payment Class -----------------
+class Payment:
+    def __init__(self, payment_id, booking, amount, payment_status="Pending"):
+        self.payment_id = payment_id
+        self.booking = booking
+        self.amount = amount
+        self.payment_status = payment_status
+
+    def process_payment(self):
+        self.payment_status = "Completed"
+        print(f"Payment of ${self.amount} for Booking ID {self.booking.booking_id} completed.")
